@@ -6,9 +6,13 @@ export function Create() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [done, setDone] = useState(false);
+  const [password, setPassword] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
-    const requestData = JSON.stringify({title, content});
+
+    if (password != "swag") {
+      return;
+    }
 
     const requestOptions = {
       method: 'POST',
@@ -16,11 +20,9 @@ export function Create() {
       body: JSON.stringify({title, content})
     };
 
-    // ??
     fetch('http://localhost:3000/blog/create-post', requestOptions);
 
     setDone(true);
-    console.log(requestData);
   }
 
   if (done) {
@@ -42,6 +44,13 @@ export function Create() {
           value={content}
           onChange={(e) => setContent(e.currentTarget.value)}
         ></textarea>
+      </div>
+      <div>
+          <input
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
+          />
       </div>
       <button type="submit">Post</button>
     </form>

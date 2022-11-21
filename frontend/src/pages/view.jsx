@@ -11,11 +11,25 @@ export function View() {
       setPosts(json);
     })();
   }, []);
+
+  const handleDelete = async(title) => {
+     await fetch(`http://localhost:3000/blog/${title}`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json", "Accept": "application/json"},
+    })
+  }
+
+  const handleEdit = async(title) => {
+    handleDelete(title);
+    
+  }
+
   return (
     <div>
       <Link to="/"> Home</Link>
       <div>
-        {posts.map((post) => (
+        {
+          posts.map((post) => (
           <div
             style={{
               border: "2px solid",
@@ -24,6 +38,8 @@ export function View() {
               textAlign: "center",
             }}
           >
+           <button onClick = {() => handleDelete(post.title)}>Delete</button>
+           <Link to="/create" onClick = {() => handleEdit(post.title)}>Edit</Link>
             <h2 style={{margin: "0.2rem"}}>{post.title}</h2>
             <div>{post.content}</div>
           </div>

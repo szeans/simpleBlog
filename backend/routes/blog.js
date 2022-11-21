@@ -1,5 +1,4 @@
 import express from "express";
-
 import {BlogModel} from "../schema/blog.js";
 
 const router = express.Router();
@@ -22,6 +21,13 @@ router.post("/create-post", async (req, res) => {
   await blog.save();
   // get an object representation and send it back to the client
   return res.send(blog.toObject());
+});
+
+router.delete("/:title", (req, res) => {
+  BlogModel.deleteOne({ title: req.params.title }, function (err) {
+    if(err) console.log(err);
+    else console.log("Successful deletion");
+  });
 });
 
 export default router;
